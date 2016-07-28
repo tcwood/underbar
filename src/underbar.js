@@ -94,7 +94,16 @@
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-    
+    var failTest = [];
+    var passTest = _.filter(collection, test);
+
+    _.each(collection, function(item){
+      if(_.indexOf(passTest, item) === -1){
+        failTest.push(item);
+      };
+    })
+
+    return failTest;
   };
 
   // Produce a duplicate-free version of the array.
