@@ -79,25 +79,35 @@
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
-    var truthful = [];
+    var passTest = [];
 
     _.each(collection, function(item) {
       if(test(item)) {
-        truthful.push(item);
+        passTest.push(item);
       }
     });
 
-    return truthful;
+    return passTest;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
+    
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var uniqueItems = []
+
+    _.each(array, function(item){
+      if (_.indexOf(uniqueItems, item) === -1) {
+        uniqueItems.push(item);
+      }
+    })
+
+    return uniqueItems;
   };
 
 
