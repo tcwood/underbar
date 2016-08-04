@@ -313,37 +313,18 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
-/*  _.memoize = function(func) {
-    var calledArgs = [];
-    var savedResults = [];
-    var result;
 
-    return function() {
-
-      if (calledArgs.indexOf(arguments) === -1) {
-        result = func.apply(this, arguments);
-        calledArgs.push(arguments);
-        savedResults.push(result);
-        return result;
-      } else {
-        return savedResults[calledFuncs.indexOf(arguments)];
-      }
-    };
-  };
-  */
   _.memoize = function(func) {
     var calledArgs = [];
     var result;
 
     return function() {
-//      var args = Array.from(arguments);
-//      args = Array.isArray(args[0]) ? args[0] : args;
 
       var storedIndex = -1;
       var alreadyCalled = false;
     
       //check if function has previously been called with current args
-      if(Array.isArray(arguments[0])) {
+      if(Array.isArray(arguments[0])) { //execute if arguments stored in array
         for(var i = 0; i < calledArgs.length; i++) {
           if(Array.isArray(calledArgs[i].argArray[0])) {
             for(var b = 0; b< calledArgs[i].argArray[0].length; b++) {
@@ -360,7 +341,7 @@
             break
           }
         }
-      } else {
+      } else {                      //execute if arguments are primitives
         for(var i = 0; i < calledArgs.length; i++) {
           for(var n = 0; n < calledArgs[i].argArray.length; n++) {
             if(arguments[n] === calledArgs[i].argArray[n]) {
@@ -396,7 +377,9 @@
   // The arguments for the original function are passed after the wait
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
-  _.delay = function(func, wait) {
+_.delay = function(func, wait) {
+    var args = Array.from(arguments);
+    var timed = setTimeout.apply(window, args);
   };
 
 
