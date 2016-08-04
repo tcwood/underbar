@@ -313,7 +313,81 @@
   // _.memoize should return a function that, when called, will check if it has
   // already computed the result for the given argument and return that value
   // instead if possible.
+/*  _.memoize = function(func) {
+    var calledArgs = [];
+    var savedResults = [];
+    var result;
+
+    return function() {
+
+      if (calledArgs.indexOf(arguments) === -1) {
+        result = func.apply(this, arguments);
+        calledArgs.push(arguments);
+        savedResults.push(result);
+        return result;
+      } else {
+        return savedResults[calledFuncs.indexOf(arguments)];
+      }
+    };
+  };
+  */
   _.memoize = function(func) {
+    var calledArgs = [];
+    var result;
+
+    return function() {
+//      var args = Array.from(arguments);
+//      args = Array.isArray(args[0]) ? args[0] : args;
+
+      var storedIndex = -1;
+      var alreadyCalled = false;
+    
+      //check if function has previously been called with current args
+      if(Array.isArray(arguments[0])) {
+        for(var i = 0; i < calledArgs.length; i++) {
+          if(Array.isArray(calledArgs[i].argArray[0])) {
+            for(var b = 0; b< calledArgs[i].argArray[0].length; b++) {
+              if(arguments[0][b] === calledArgs[i].argArray[0][b]){
+                alreadyCalled = true;
+              } else {
+                alreadyCalled = false;
+                break;
+              }
+            }
+          }
+          if(alreadyCalled) {
+            storedIndex = i;
+            break
+          }
+        }
+      } else {
+        for(var i = 0; i < calledArgs.length; i++) {
+          for(var n = 0; n < calledArgs[i].argArray.length; n++) {
+            if(arguments[n] === calledArgs[i].argArray[n]) {
+              alreadyCalled = true;
+            } else {
+              alreadyCalled = false;
+              break;
+            }
+          }
+          if(alreadyCalled) {
+            storedIndex = i;
+            break;
+          }
+        }
+      }
+      //if not previously called, store new result. Otherwise retrieve old
+      if (!alreadyCalled) {
+        result = func.apply(null, arguments);
+        calledArgs.push({
+          argArray : arguments,
+          funcResult : result
+        });
+        return result;
+      } else {
+        return calledArgs[storedIndex].funcResult;
+      }
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
