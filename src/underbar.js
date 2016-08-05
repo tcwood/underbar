@@ -394,6 +394,28 @@ _.delay = function(func, wait) {
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
+    var arrayAndRandom = []
+    _.each(array, function(value){
+      arrayAndRandom.push({
+        element: value,
+        randNum: Math.random()
+      });
+    });
+
+    arrayAndRandom.sort(function(a, b){
+      if (a.randNum > b.randNum) {
+        return 1;
+      } else if (a.randNum < b.randNum) {
+        return -1;
+      } else {
+        return 0;
+      }
+    });
+
+    return _.map(arrayAndRandom, function(pair){
+      return pair.element;
+    });
+
   };
 
 
